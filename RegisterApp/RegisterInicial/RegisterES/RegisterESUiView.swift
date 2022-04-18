@@ -11,7 +11,7 @@ class RegisterESUiView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
+        backgroundColor = .blue
     }
     
     required init?(coder: NSCoder) {
