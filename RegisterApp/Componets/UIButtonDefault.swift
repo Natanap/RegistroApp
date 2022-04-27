@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NextButton: UIButton {
+class UIButtonDefault: UIButton {
     init(setTitle: String){
         super.init(frame: .zero)
         initDefault(setTitle: setTitle)
@@ -21,8 +21,8 @@ class NextButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.setTitleColor(.white, for: .normal)
         self.clipsToBounds = true
-        self.layer.cornerRadius = 7.5
-        self.backgroundColor = .systemGreen
+        self.layer.cornerRadius = 10
+        self.backgroundColor = .black
     }
     
     private func setConstraints(){
