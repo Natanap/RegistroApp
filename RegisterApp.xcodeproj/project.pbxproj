@@ -33,6 +33,10 @@
 		2C8BAA35281084050065A21E /* UIViewCanvas in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8BAA34281084050065A21E /* UIViewCanvas */; };
 		2C8BAA38281084810065A21E /* DadosPessoaisVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8BAA37281084810065A21E /* DadosPessoaisVC.swift */; };
 		2C8BAA3A281084AD0065A21E /* RegisterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8BAA39281084AD0065A21E /* RegisterDataView.swift */; };
+		2CA49C3B281AFBFB000267E2 /* CEPProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA49C3A281AFBFB000267E2 /* CEPProvider.swift */; };
+		2CA49C3D281AFC1B000267E2 /* CEPViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA49C3C281AFC1B000267E2 /* CEPViewModel.swift */; };
+		2CA49C3F281AFC43000267E2 /* CEPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA49C3E281AFC43000267E2 /* CEPModel.swift */; };
+		2CA49C41281B09D3000267E2 /* AddressRegisterViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA49C40281B09D3000267E2 /* AddressRegisterViewExtensions.swift */; };
 		2CBB8327281840490046EC12 /* AddressCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBB8326281840490046EC12 /* AddressCoordinator.swift */; };
 		2CBB832B281858EE0046EC12 /* RegExp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBB832A281858EE0046EC12 /* RegExp.swift */; };
 		2CCF90762812E05B00730E45 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF90752812E05A00730E45 /* Coordinator.swift */; };
@@ -68,6 +72,10 @@
 		2C53D477280DE2F000F25897 /* UIButtonDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonDefault.swift; sourceTree = "<group>"; };
 		2C8BAA37281084810065A21E /* DadosPessoaisVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DadosPessoaisVC.swift; sourceTree = "<group>"; };
 		2C8BAA39281084AD0065A21E /* RegisterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDataView.swift; sourceTree = "<group>"; };
+		2CA49C3A281AFBFB000267E2 /* CEPProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEPProvider.swift; sourceTree = "<group>"; };
+		2CA49C3C281AFC1B000267E2 /* CEPViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEPViewModel.swift; sourceTree = "<group>"; };
+		2CA49C3E281AFC43000267E2 /* CEPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEPModel.swift; sourceTree = "<group>"; };
+		2CA49C40281B09D3000267E2 /* AddressRegisterViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRegisterViewExtensions.swift; sourceTree = "<group>"; };
 		2CBB8326281840490046EC12 /* AddressCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCoordinator.swift; sourceTree = "<group>"; };
 		2CBB832A281858EE0046EC12 /* RegExp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegExp.swift; sourceTree = "<group>"; };
 		2CCF90752812E05A00730E45 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -109,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				2C0CB3AC2816D0FF00080796 /* AddressRegisterView.swift */,
+				2CA49C40281B09D3000267E2 /* AddressRegisterViewExtensions.swift */,
 			);
 			path = AddressRegisterView;
 			sourceTree = "<group>";
@@ -168,6 +177,7 @@
 		2C53D458280DB12B00F25897 /* RegisterApp */ = {
 			isa = PBXGroup;
 			children = (
+				2CA49C35281AFB9F000267E2 /* Source */,
 				2C8BAA32281083B10065A21E /* Coordinator */,
 				2CBB8328281858BA0046EC12 /* Infrastructure */,
 				2C53D472280DC92000F25897 /* Componets */,
@@ -256,6 +266,48 @@
 				2C410F742819914C00DD3321 /* RegisterDataConstraints.swift */,
 			);
 			path = DadosPessoaisScreen;
+			sourceTree = "<group>";
+		};
+		2CA49C35281AFB9F000267E2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				2CA49C36281AFBB4000267E2 /* API */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		2CA49C36281AFBB4000267E2 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				2CA49C39281AFBDE000267E2 /* Model */,
+				2CA49C38281AFBD4000267E2 /* ViewModel */,
+				2CA49C37281AFBBC000267E2 /* Provider */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		2CA49C37281AFBBC000267E2 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				2CA49C3A281AFBFB000267E2 /* CEPProvider.swift */,
+			);
+			path = Provider;
+			sourceTree = "<group>";
+		};
+		2CA49C38281AFBD4000267E2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2CA49C3C281AFC1B000267E2 /* CEPViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2CA49C39281AFBDE000267E2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2CA49C3E281AFC43000267E2 /* CEPModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2CBB8328281858BA0046EC12 /* Infrastructure */ = {
@@ -360,6 +412,7 @@
 				2C53D45A280DB12B00F25897 /* AppDelegate.swift in Sources */,
 				2CBB832B281858EE0046EC12 /* RegExp.swift in Sources */,
 				2CCF90762812E05B00730E45 /* Coordinator.swift in Sources */,
+				2CA49C3B281AFBFB000267E2 /* CEPProvider.swift in Sources */,
 				2C410F6D28198ABB00DD3321 /* ColorConstants.swift in Sources */,
 				2CCF907A2812E3F300730E45 /* RegisterPersonalDataCoordinator.swift in Sources */,
 				2C410F6A281989D900DD3321 /* Collection+.swift in Sources */,
@@ -367,9 +420,12 @@
 				2C410F6F28198B1400DD3321 /* String+.swift in Sources */,
 				2C53D45C280DB12B00F25897 /* SceneDelegate.swift in Sources */,
 				2C410F68281989C200DD3321 /* StringProtocol+.swift in Sources */,
+				2CA49C3D281AFC1B000267E2 /* CEPViewModel.swift in Sources */,
 				2C8BAA3A281084AD0065A21E /* RegisterDataView.swift in Sources */,
 				2C410F7328198B6E00DD3321 /* Formatter+.swift in Sources */,
+				2CA49C3F281AFC43000267E2 /* CEPModel.swift in Sources */,
 				2C0CB3AF2816D11C00080796 /* AddressRegisterVC.swift in Sources */,
+				2CA49C41281B09D3000267E2 /* AddressRegisterViewExtensions.swift in Sources */,
 				2C410F772819B94F00DD3321 /* ImageCheckDefault.swift in Sources */,
 				2C0CB3AD2816D0FF00080796 /* AddressRegisterView.swift in Sources */,
 				2C8BAA38281084810065A21E /* DadosPessoaisVC.swift in Sources */,
