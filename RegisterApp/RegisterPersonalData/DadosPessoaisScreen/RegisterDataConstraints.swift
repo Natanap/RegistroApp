@@ -17,16 +17,16 @@ extension RegisterDataView {
             subLabel.topAnchor.constraint(equalTo: self.registerLabel.bottomAnchor, constant: 5),
             subLabel.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
             
-            idadeLabel.topAnchor.constraint(equalTo: self.subLabel.bottomAnchor,constant: 5),
-            idadeLabel.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
+            ageLabel.topAnchor.constraint(equalTo: self.subLabel.bottomAnchor,constant: 5),
+            ageLabel.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
           
-            idadeButton.topAnchor.constraint(equalTo: self.idadeLabel.bottomAnchor, constant: 5),
-            idadeButton.leadingAnchor.constraint(equalTo: self.idadeLabel.leadingAnchor),
-            idadeButton.widthAnchor.constraint(equalToConstant: 170),
-            idadeButton.heightAnchor.constraint(equalToConstant: 40),
+            ageTextField.topAnchor.constraint(equalTo: self.ageLabel.bottomAnchor, constant: 5),
+            ageTextField.leadingAnchor.constraint(equalTo: self.ageLabel.leadingAnchor),
+            ageTextField.widthAnchor.constraint(equalToConstant: 170),
+            ageTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            genderLabel.topAnchor.constraint(equalTo: self.idadeLabel.topAnchor),
-            genderLabel.leadingAnchor.constraint(equalTo: self.idadeButton.trailingAnchor, constant: 5),
+            genderLabel.topAnchor.constraint(equalTo: self.ageLabel.topAnchor),
+            genderLabel.leadingAnchor.constraint(equalTo: self.ageTextField.trailingAnchor, constant: 5),
             
             genderTextField.topAnchor.constraint(equalTo: self.genderLabel.bottomAnchor,constant: 5),
             genderTextField.leadingAnchor.constraint(equalTo: self.genderLabel.leadingAnchor),
@@ -46,13 +46,13 @@ extension RegisterDataView {
             validCpfImage.heightAnchor.constraint(equalToConstant: 25),
             validCpfImage.widthAnchor.constraint(equalToConstant: 25),
             
-            telLabel.topAnchor.constraint(equalTo: self.cpfTextField.bottomAnchor,constant: 10),
-            telLabel.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
-            telLabel.trailingAnchor.constraint(equalTo: self.genderTextField.trailingAnchor),
+            phoneLabel.topAnchor.constraint(equalTo: self.cpfTextField.bottomAnchor,constant: 10),
+            phoneLabel.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
+            phoneLabel.trailingAnchor.constraint(equalTo: self.genderTextField.trailingAnchor),
             
-            telTextField.topAnchor.constraint(equalTo: self.telLabel.bottomAnchor,constant: 10),
-            telTextField.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
-            telTextField.trailingAnchor.constraint(equalTo: self.genderTextField.trailingAnchor),
+            phoneTextField.topAnchor.constraint(equalTo: self.phoneLabel.bottomAnchor,constant: 10),
+            phoneTextField.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),
+            phoneTextField.trailingAnchor.constraint(equalTo: self.genderTextField.trailingAnchor),
             
             nextButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -40),
             nextButton.leadingAnchor.constraint(equalTo: self.registerLabel.leadingAnchor),

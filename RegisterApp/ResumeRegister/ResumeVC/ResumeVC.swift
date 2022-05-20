@@ -9,21 +9,31 @@ import UIKit
 
 class ResumeVC: UIViewController {
 
+    var onGoHome: (() -> Void )?
+    
+    //MARK: Variables
+    var coordinatorViewModel: CoordinatorViewModel?
+    
+    //MARK: Elements Views
+    lazy var resumeScreen: ResumeView = {
+        let coordinatorViewModel = self.coordinatorViewModel ?? CoordinatorViewModel()
+        let view = ResumeView(withCoordinatorViewModel: coordinatorViewModel)
+        
+        view.onGoHome = {
+            self.onGoHome?()
+        }
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setProfileViewModel(coordinatorViewModel: CoordinatorViewModel) {
+        self.coordinatorViewModel = coordinatorViewModel
     }
-    */
-
+    
+    override func loadView() {
+        self.view = resumeScreen
+    }
 }

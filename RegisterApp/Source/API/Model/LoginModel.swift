@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+struct LoginModel {
+    let userName: String
+    let email:String
+    
+    
+    init(){
+        self.userName = String.empty
+        self.email = String.empty
+    }
+    
+    init(userName: String, email: String){
+        self.userName = userName
+        self.email = email
+    }
+}

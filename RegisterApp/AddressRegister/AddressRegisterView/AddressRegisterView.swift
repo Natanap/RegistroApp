@@ -9,7 +9,9 @@ import UIKit
 
 class AddressRegisterView: UIView {
     
-    var onNextTaped: (()-> Void)?
+    var onSaveProfile: ((_ addressViewModel: AddressViewModel) -> Void)?
+    var cepViewModel = CEPViewModel()
+    var loginModel = LoginModel()
     
     lazy var titleLabel = LabelDefault(text: "Registro")
     lazy var subTitleLabel = LabelDefault(sub: "Dados de Endereço")
@@ -19,6 +21,13 @@ class AddressRegisterView: UIView {
         tf.keyboardType = .numberPad
         return tf
     }()
+//    lazy var cepinvalidLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "Cep Não localizado"
+//        label.textColor = .red
+//        label.font = UIFont.systemFont(ofSize: 15)
+//        return label
+//    }()
     
     lazy var buscaCEPButton: UIButtonDefault = {
         let bt = UIButtonDefault(setTitle: "🔍")
@@ -33,7 +42,7 @@ class AddressRegisterView: UIView {
     lazy var districtTextField = TextFieldDefault(placeholder: "Digite o seu Bairro:")
     lazy var cityLabel = LabelDefault(textlabel: "Cidade:")
     lazy var cityTextField = TextFieldDefault(placeholder: "Digite a sua Cidade:")
-    lazy var ufLabel = LabelDefault(textlabel: "Cidade:")
+    lazy var ufLabel = LabelDefault(textlabel: "Estado:")
     lazy var ufTextField = TextFieldDefault(placeholder: "Digite o Estado:")
 //    lazy var stateButton: UIButton = {
 //        let button = UIButton()
@@ -54,7 +63,7 @@ class AddressRegisterView: UIView {
 //    }()
     lazy var nextButton: UIButtonDefault = {
         let button = UIButtonDefault(setTitle: "NEXT")
-        button.addTarget(self, action: #selector(nextButtonTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(saveProfileTap), for: .touchUpInside)
         return button
     }()
     
@@ -63,33 +72,41 @@ class AddressRegisterView: UIView {
         backgroundColor = .orangeViewBackgroundColor
         addSubView()
         setUpConstraints()
+        setTextFields()
     }
     
     func addSubView(){
-        self.addSubview(titleLabel)
-        self.addSubview(subTitleLabel)
-        self.addSubview(cepLabel)
-        self.addSubview(cepTextField)
-        self.addSubview(buscaCEPButton)
-        self.addSubview(streetLabel)
-        self.addSubview(streetTextField)
-        self.addSubview(numberLabel)
-        self.addSubview(numberTextField)
-        self.addSubview(districtLabel)
-        self.addSubview(districtTextField)
-        self.addSubview(cityLabel)
-        self.addSubview(cityTextField)
-        self.addSubview(ufLabel)
-        self.addSubview(ufTextField)
-        self.addSubview(nextButton)
+        addSubview(titleLabel)
+        addSubview(subTitleLabel)
+        addSubview(cepLabel)
+        addSubview(cepTextField)
+        addSubview(buscaCEPButton)
+//        contentView.addSubview(cepinvalidLabel)
+        addSubview(streetLabel)
+        addSubview(streetTextField)
+        addSubview(numberLabel)
+        addSubview(numberTextField)
+        addSubview(districtLabel)
+        addSubview(districtTextField)
+        addSubview(cityLabel)
+        addSubview(cityTextField)
+        addSubview(ufLabel)
+        addSubview(ufTextField)
+        addSubview(nextButton)
         
     
     }
-    
-    
 
-    @objc private func nextButtonTap(){
-        onNextTaped?()
+    @objc private func saveProfileTap(){
+        
+        let addressViewModel = AddressViewModel(cep: cepTextField.text ?? String.empty, endereco: streetTextField.text ?? String.empty, bairro: districtTextField.text ?? String.empty, complemento: numberTextField.text ?? String.empty , cidade: cityTextField.text ?? String.empty, uf: ufTextField.text ?? String.empty)
+        
+        onSaveProfile?(addressViewModel)
+ 
+    }
+    
+    private func setTextFields() {
+        cepTextField.delegate = self
     }
     
     @objc
@@ -109,6 +126,11 @@ class AddressRegisterView: UIView {
             print(viewModel)
         }
         
+//        if cepViewModel.resultado == "0" {
+//            self.cepinvalidLabel.isHidden = true
+//        }else{
+//            self.cepinvalidLabel.isHidden = true
+//        }
     }
     
     
@@ -116,79 +138,72 @@ class AddressRegisterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     private func setUpConstraints(){
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 5),
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 5),
             
-            subTitleLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,constant: 5),
-            subTitleLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
+            subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 5),
+            subTitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+    
+            cepLabel.topAnchor.constraint(equalTo: subTitleLabel.bottomAnchor, constant: 5),
+            cepLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            cepLabel.heightAnchor.constraint(equalToConstant: 20),
             
+            cepTextField.topAnchor.constraint(equalTo: cepLabel.bottomAnchor,constant: 5),
+            cepTextField.leadingAnchor.constraint(equalTo: streetTextField.leadingAnchor),
+            cepTextField.trailingAnchor.constraint(equalTo: streetTextField.trailingAnchor, constant: -50),
             
-            cepLabel.topAnchor.constraint(equalTo: self.subTitleLabel.bottomAnchor, constant: 5),
-            cepLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
-            
-            cepTextField.topAnchor.constraint(equalTo: self.cepLabel.bottomAnchor,constant: 5),
-            cepTextField.leadingAnchor.constraint(equalTo: self.streetTextField.leadingAnchor),
-            cepTextField.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor, constant: -50),
-            
-            buscaCEPButton.topAnchor.constraint(equalTo: self.cepTextField.topAnchor),
+            buscaCEPButton.topAnchor.constraint(equalTo: cepTextField.topAnchor),
             buscaCEPButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
-            buscaCEPButton.leadingAnchor.constraint(equalTo: self.cepTextField.trailingAnchor, constant: 5),
+            buscaCEPButton.leadingAnchor.constraint(equalTo: cepTextField.trailingAnchor, constant: 5),
+
             
-            streetLabel.topAnchor.constraint(equalTo: self.cepTextField.bottomAnchor, constant: 5),
-            streetLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
+            streetLabel.topAnchor.constraint(equalTo: cepTextField.bottomAnchor, constant: 5),
+            streetLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             
-            streetTextField.topAnchor.constraint(equalTo: self.streetLabel.bottomAnchor,constant: 10),
-            streetTextField.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
+            streetTextField.topAnchor.constraint(equalTo: streetLabel.bottomAnchor,constant: 10),
+            streetTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             streetTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             
-            numberLabel.topAnchor.constraint(equalTo: self.streetTextField.bottomAnchor, constant: 5),
-            numberLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
+          
+            numberLabel.topAnchor.constraint(equalTo: streetTextField.bottomAnchor, constant: 5),
+            numberLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             
-            numberTextField.topAnchor.constraint(equalTo: self.numberLabel.bottomAnchor, constant: 10),
-            numberTextField.leadingAnchor.constraint(equalTo: self.streetTextField.leadingAnchor),
-            numberTextField.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor),
+            numberTextField.topAnchor.constraint(equalTo: numberLabel.bottomAnchor, constant: 10),
+            numberTextField.leadingAnchor.constraint(equalTo: streetTextField.leadingAnchor),
+            numberTextField.trailingAnchor.constraint(equalTo: streetTextField.trailingAnchor),
             
-            districtLabel.topAnchor.constraint(equalTo: self.numberTextField.bottomAnchor, constant: 5),
-            districtLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
+            districtLabel.topAnchor.constraint(equalTo: numberTextField.bottomAnchor, constant: 5),
+            districtLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             
-            districtTextField.topAnchor.constraint(equalTo: self.districtLabel.bottomAnchor,constant: 10),
-            districtTextField.leadingAnchor.constraint(equalTo: self.streetTextField.leadingAnchor),
-            districtTextField.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor),
-            
-            
-            cityLabel.topAnchor.constraint(equalTo: self.districtTextField.bottomAnchor, constant: 5),
-            cityLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
-            
-            cityTextField.topAnchor.constraint(equalTo: self.cityLabel.bottomAnchor,constant: 10),
-            cityTextField.leadingAnchor.constraint(equalTo: self.streetTextField.leadingAnchor),
-            cityTextField.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor),
+            districtTextField.topAnchor.constraint(equalTo: districtLabel.bottomAnchor,constant: 10),
+            districtTextField.leadingAnchor.constraint(equalTo: streetTextField.leadingAnchor),
+            districtTextField.trailingAnchor.constraint(equalTo: streetTextField.trailingAnchor),
             
             
-            ufLabel.topAnchor.constraint(equalTo: self.cityTextField.bottomAnchor, constant: 5),
-            ufLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
             
-            ufTextField.topAnchor.constraint(equalTo: self.ufLabel.bottomAnchor,constant: 10),
-            ufTextField.leadingAnchor.constraint(equalTo: self.streetTextField.leadingAnchor),
-            ufTextField.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor),
-//            stateButton.topAnchor.constraint(equalTo: self.cityTextField.topAnchor),
-//            stateButton.leadingAnchor.constraint(equalTo: self.cityTextField.trailingAnchor, constant: 10 ),
-//            stateButton.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor),
-//            stateButton.heightAnchor.constraint(equalToConstant: 50),
+            cityLabel.topAnchor.constraint(equalTo: districtTextField.bottomAnchor, constant: 5),
+            cityLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+    
+            cityTextField.topAnchor.constraint(equalTo: cityLabel.bottomAnchor,constant: 10),
+            cityTextField.leadingAnchor.constraint(equalTo: streetTextField.leadingAnchor),
+            cityTextField.trailingAnchor.constraint(equalTo: streetTextField.trailingAnchor),
             
-            nextButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40),
-            nextButton.leadingAnchor.constraint(equalTo: self.streetTextField.leadingAnchor),
-            nextButton.trailingAnchor.constraint(equalTo: self.streetTextField.trailingAnchor),
+            
+            ufLabel.topAnchor.constraint(equalTo: cityTextField.bottomAnchor, constant: 5),
+            ufLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            
+            ufTextField.topAnchor.constraint(equalTo: ufLabel.bottomAnchor,constant: 10),
+            ufTextField.leadingAnchor.constraint(equalTo: streetTextField.leadingAnchor),
+            ufTextField.trailingAnchor.constraint(equalTo: streetTextField.trailingAnchor),
+            
+            nextButton.topAnchor.constraint(equalTo: ufTextField.bottomAnchor, constant: 20),
+            nextButton.leadingAnchor.constraint(equalTo: streetTextField.leadingAnchor),
+            nextButton.trailingAnchor.constraint(equalTo: streetTextField.trailingAnchor),
         ])
-    }
-}
-
-import SwiftUI
-import UIViewCanvas
-
-struct MyPreview2: PreviewProvider {
-    static var previews: some View {
-        ViewCanvas(for: AddressRegisterView())
+        
+//        cepinvalidLabel.isHidden = false
     }
 }

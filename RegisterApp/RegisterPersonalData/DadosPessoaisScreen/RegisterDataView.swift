@@ -10,32 +10,53 @@ import UIKit
 class RegisterDataView: UIView {
 
     // MARK: Closures
-    var onNextTaped: (()-> Void)?
+    var onNextTaped: ((_ profileViewModel: ProfileViewModel)-> Void)?
     
     lazy var registerLabel = LabelDefault(text: "Tela de Registro")
     lazy var subLabel = LabelDefault(sub: "Dados pessoais")
-    lazy var idadeLabel = LabelDefault(textlabel: "Idade:")
-    lazy var idadeButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
-        let optionClosure = {(action: UIAction) in
-            print(action.title)
-        }
-        button.menu = UIMenu(children: [
-            UIAction(title: "Selecione a idade:", handler: optionClosure),
-            UIAction(title: "0..15",handler: optionClosure),
-            UIAction(title: "16..25",handler: optionClosure),
-            UIAction(title: "26..35",handler: optionClosure),
-            UIAction(title: "36..50",handler: optionClosure),
-            UIAction(title: "Maior que 50..",handler: optionClosure),
-        ])
-        button.showsMenuAsPrimaryAction = true
-        button.changesSelectionAsPrimaryAction = true
+    lazy var ageLabel = LabelDefault(textlabel: "Idade:")
+    lazy var ageTextField = TextFieldDefault(placeholder: "Sua idade")
+    lazy var agePickerView:ToolbarPickerView = {
+        let picker = ToolbarPickerView()
+        picker.translatesAutoresizingMaskIntoConstraints = false
         
-        return button
+        picker.didTapDone = { [weak self] in
+            guard let self = self else { return }
+            
+            let row = picker.selectedRow(inComponent: 0)
+            picker.selectRow(row, inComponent: 0, animated: false)
+            self.ageTextField.text = Age.allCases[row].rawValue
+            self.ageTextField.resignFirstResponder()
+        }
+        
+        picker.didTapCancel = {
+            self.ageTextField.resignFirstResponder()
+        }
+        
+        return picker
     }()
     
+//    lazy var idadeButton: UIButton = {
+//        let button = UIButton()
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.backgroundColor = .black
+//        let optionClosure = {(action: UIAction) in
+//            print(action.title)
+//        }
+//        button.menu = UIMenu(children: [
+//            UIAction(title: "Selecione a idade:", handler: optionClosure),
+//            UIAction(title: "0..15",handler: optionClosure),
+//            UIAction(title: "16..25",handler: optionClosure),
+//            UIAction(title: "26..35",handler: optionClosure),
+//            UIAction(title: "36..50",handler: optionClosure),
+//            UIAction(title: "Maior que 50..",handler: optionClosure),
+//        ])
+//        button.showsMenuAsPrimaryAction = true
+//        button.changesSelectionAsPrimaryAction = true
+//        button.addTarget(self, action: #selector(ageSelect), for: .touchUpInside)
+//        return button
+//    }()
+//
     lazy var genderLabel = LabelDefault(textlabel: "Gênero")
     lazy var genderTextField = TextFieldDefault(placeholder: "Seu gênero")
     lazy var genderPickerView: ToolbarPickerView = {
@@ -66,11 +87,11 @@ class RegisterDataView: UIView {
         return text
     }()
     
-    lazy var validCpfImage = ImageCheckDefault(image: "checkmark.circle.fill")
+    lazy var validCpfImage = ImageDefault(image: "checkmark.circle.fill", tintColor: .green, isHidden: true)
     
-    lazy var telLabel = LabelDefault(textlabel: "Telefone:")
+    lazy var phoneLabel = LabelDefault(textlabel: "Telefone:")
     
-    lazy var telTextField:  TextFieldDefault = {
+    lazy var phoneTextField:  TextFieldDefault = {
         let text = TextFieldDefault(placeholder: "Digite o seu telefone")
         text.keyboardType = .asciiCapableNumberPad
         return text
@@ -95,29 +116,46 @@ class RegisterDataView: UIView {
     func addSubview(){
         self.addSubview(registerLabel)
         self.addSubview(subLabel)
-        self.addSubview(idadeLabel)
-        self.addSubview(idadeButton)
+        self.addSubview(ageLabel)
+        self.addSubview(ageTextField)
         self.addSubview(genderLabel)
         self.addSubview(genderTextField)
         self.addSubview(cpfLabel)
         self.addSubview(cpfTextField)
         self.addSubview(validCpfImage)
-        self.addSubview(telLabel)
-        self.addSubview(telTextField)
+        self.addSubview(phoneLabel)
+        self.addSubview(phoneTextField)
         self.addSubview(nextButton)
     }
     
     
     private func setPickerView() {
 
+        agePickerView.dataSource = self
+        agePickerView.delegate = self
+        ageTextField.inputView = agePickerView
+        ageTextField.inputAccessoryView = agePickerView.toolbar
+        
         genderPickerView.dataSource = self
         genderPickerView.delegate = self
         genderTextField.inputView = genderPickerView
         genderTextField.inputAccessoryView = genderPickerView.toolbar
     }
     
+   
+    
     @objc private func nextButtonTap(){
-        onNextTaped?()
+        let age = ageTextField.text ?? String.empty
+        let gender = genderTextField.text ?? String.empty
+        let cpf = cpfTextField.text ?? String.empty
+        let phone = phoneTextField.text ?? String.empty
+        
+        let profileViewModel = ProfileViewModel(age: age,
+                                                gender: gender,
+                                                cpf: cpf,
+                                                phone: phone)
+        
+        onNextTaped?(profileViewModel)
     
     }
     
@@ -127,17 +165,8 @@ class RegisterDataView: UIView {
     
     private func setTextFields() {
         cpfTextField.delegate = self
-        telTextField.delegate = self
+        phoneTextField.delegate = self
     }
     
 }
 
-
-import SwiftUI
-import UIViewCanvas
-
-struct MyPreview: PreviewProvider {
-    static var previews: some View {
-        ViewCanvas(for: RegisterDataView())
-    }
-}

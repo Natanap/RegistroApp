@@ -26,7 +26,7 @@ extension RegisterDataView: UITextFieldDelegate {
             textField.text = String(textField.text!.prefix(14))
         }
         
-        if textField == telTextField {
+        if textField == phoneTextField {
             
             if (textField.text?.count ?? 0) < 14 {
                 textField.layer.borderColor = UIColor.purple.cgColor
@@ -53,7 +53,7 @@ extension RegisterDataView: UITextFieldDelegate {
                     }
                 }
             }
-        if textField == telTextField {
+        if textField == phoneTextField {
             if !string.isBackspace {
                 if range.location == 0 {
                     textField.text = textField.text! + "("
@@ -78,8 +78,9 @@ extension RegisterDataView: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-       
-        if pickerView == genderPickerView {
+        if pickerView == agePickerView {
+            return Age.asArray.count
+        } else if pickerView == genderPickerView {
             return Gender.asArray.count
         }
         
@@ -87,8 +88,9 @@ extension RegisterDataView: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        if pickerView == genderPickerView {
+        if pickerView == agePickerView {
+            return Age.allCases[row].rawValue
+        } else if pickerView == genderPickerView {
             return Gender.allCases[row].rawValue
         }
         

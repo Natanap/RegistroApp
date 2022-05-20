@@ -9,13 +9,13 @@ import UIKit
 
 class AddressRegisterVC: UIViewController {
 
-    var onNextTaped: (()-> Void)?
+    var onSaveProfile: ((_ addressViewModel: AddressViewModel) -> Void)?
     
     lazy var addressRegister: AddressRegisterView = {
         let view = AddressRegisterView()
-        
-        view.onNextTaped = {
-            self.onNextTaped?()
+
+            view.onSaveProfile = { addressViewModel in
+                self.onSaveProfile?(addressViewModel)
         }
         return view
     }()

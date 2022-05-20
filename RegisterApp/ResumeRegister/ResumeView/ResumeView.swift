@@ -47,6 +47,7 @@ class ResumeView: ViewDefault {
         setLabelAge()
         setButtonHome()
     }
+    //MARK: Exibe elementos na tela de resumo
     
     private func setValuesInElementsViews() {
         labelUserName.text = "Nome: \(self.coordinatorViewModel.userViewModel?.user ?? String.empty)"
@@ -59,7 +60,7 @@ class ResumeView: ViewDefault {
         labelComplemento.text = "Complemento: \(self.coordinatorViewModel.addressViewModel?.model.complemento ?? String.empty)"
         labelDistrict.text = "Bairro: \(self.coordinatorViewModel.addressViewModel?.model.bairro ?? String.empty)"
         labelCity.text = "Cidade: \(self.coordinatorViewModel.addressViewModel?.model.cidade ?? String.empty)"
-        labelEstado.text = "Cidade: \(self.coordinatorViewModel.addressViewModel?.model.estado ?? String.empty)"
+        labelEstado.text = "Estado: \(self.coordinatorViewModel.addressViewModel?.model.uf ?? String.empty)"
     }
     
     private func setLabelAge() {
@@ -117,7 +118,7 @@ class ResumeView: ViewDefault {
             labelCity.leftAnchor.constraint(equalTo: self.labelAge.leftAnchor),
             labelCity.rightAnchor.constraint(equalTo:  self.labelAge.rightAnchor),
             
-            labelEstado.topAnchor.constraint(equalTo: self.labelEstado .bottomAnchor, constant: 10),
+            labelEstado.topAnchor.constraint(equalTo: self.labelCity .bottomAnchor, constant: 10),
             labelEstado.leftAnchor.constraint(equalTo: self.labelAge.leftAnchor),
             labelEstado.rightAnchor.constraint(equalTo:  self.labelAge.rightAnchor),
         ])

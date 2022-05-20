@@ -10,6 +10,10 @@ import Foundation
 struct CEPViewModel {
     private var model: CEPModel
     
+    init() {
+        self.model = CEPModel()
+    }
+    
     init(model: CEPModel) {
         self.model = model
     }
@@ -28,5 +32,9 @@ struct CEPViewModel {
     
     var logradouro: String {
         return "\(model.tipoLogradouro) \(model.logradouro)"
+    }
+    
+    var resultado: String {
+        model.resultado
     }
 }

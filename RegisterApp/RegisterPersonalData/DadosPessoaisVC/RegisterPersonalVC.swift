@@ -7,22 +7,22 @@
 
 import UIKit
 
-class RegisterPersonalVc: UIViewController {
+class RegisterPersonalVC: UIViewController {
     
-    var onNextTaped: (()-> Void)?
+    var onNextTaped: ((_ profileViewModel: ProfileViewModel)-> Void)?
     
-    lazy var dadosSensiveis: RegisterDataView = {
+    lazy var registerDataView: RegisterDataView = {
         let view = RegisterDataView()
         
-        view.onNextTaped = {
-            self.onNextTaped?()
+        view.onNextTaped = {profileViewModel in
+            self.onNextTaped?(profileViewModel)
         }
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = self.dadosSensiveis
+        self.view = self.registerDataView
     
     }
     

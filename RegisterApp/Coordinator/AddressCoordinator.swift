@@ -10,22 +10,41 @@ import UIKit
 
 class AddressCoordinator: Coordinator {
     
-    var navigationController: UINavigationController
+    let navigationController: UINavigationController
+    let coordinatorViewModel: CoordinatorViewModel
     
-    init(navigationController: UINavigationController){
+    init(navigationController: UINavigationController, coordinatorViewModel: CoordinatorViewModel){
         self.navigationController = navigationController
+        self.coordinatorViewModel = coordinatorViewModel
     }
     
     func start() {
         let viewController = AddressRegisterVC()
-        viewController.onNextTaped = {
-            self.nextView()
+
+        viewController.onSaveProfile = { addressViewModel in
+            self.coordinatorViewModel.addressViewModel = addressViewModel
+            self.startResumeCoordinator()
         }
+        
         self.navigationController.pushViewController(viewController, animated: true)
+        
+//        viewController.onNextTaped = {
+//            viewController.onSaveProfile = { profileViewModel in
+//                self.startResumeCoordinator(profileViewModel: profileViewModel)
+//            }
+//            self.nextView()
+//        }
+//        self.navigationController.pushViewController(viewController, animated: true)
     }
-    private func nextView() {
-        print("dados cadastrados")
-//        let coordinator = RegisterPersonalDataCoordinator(navigationController: self.navigationController)
+    
+    private func startResumeCoordinator() {
+        let coordinator = ResumeCoordinator(navigationController: self.navigationController, coordinatorViewModel: self.coordinatorViewModel)
+        
+        coordinator.start()
+    }
+//    private func nextView() {
+//        print("dados cadastrados")
+//        let coordinator = ResumeCoordinator(navigationController: self.navigationController, profileViewModel: profileViewModel)
 //        coordinator.start()
-    }
+//    }
 }

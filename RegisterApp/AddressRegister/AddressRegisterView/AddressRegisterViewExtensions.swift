@@ -9,14 +9,19 @@ import UIKit
 
 extension AddressRegisterView: UITextFieldDelegate {
     
-    func updateCamp(cepModel: CEPViewModel ){
+    func textFieldDidChangeSelection(_ textField: UITextField){
+        cepTextField.text = String(textField.text!.prefix(8))
+        
+    }
+    func updateCamp(cepModel: CEPViewModel){
         DispatchQueue.main.async {
-            self.districtTextField.text = cepModel.estado
+//            self.districtTextField.text = cepModel.estado
             self.districtTextField.text = cepModel.bairro
             self.cityTextField.text = cepModel.cidade
             self.streetTextField.text = cepModel.logradouro
             self.ufTextField.text = cepModel.estado
+            
         }
     }
-   
+
 }

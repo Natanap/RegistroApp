@@ -10,21 +10,24 @@ import UIKit
 
 class RegisterPersonalDataCoordinator: Coordinator {
     
-    var navigationController: UINavigationController
+    let navigationController: UINavigationController
+    let coordinatorViewModel: CoordinatorViewModel
     
-    init(navigationController: UINavigationController){
+    init(navigationController: UINavigationController, coordinatorViewModel: CoordinatorViewModel){
         self.navigationController = navigationController
+        self.coordinatorViewModel = coordinatorViewModel
     }
     
     func start() {
-        let viewController = DadosPessoaisVC()
-        viewController.onNextTaped = {
-            self.nextView()
+        let viewController = RegisterPersonalVC()
+        viewController.onNextTaped = {profileViewModel in
+            self.coordinatorViewModel.profileViewModel = profileViewModel
+            self.startAddressCoordinator()
         }
         self.navigationController.pushViewController(viewController, animated: true)
     }
-    private func nextView() {
-        let coordinator = AddressCoordinator(navigationController: self.navigationController)
+    private func startAddressCoordinator() {
+        let coordinator = AddressCoordinator(navigationController: self.navigationController, coordinatorViewModel: self.coordinatorViewModel)
         coordinator.start()
     }
 }

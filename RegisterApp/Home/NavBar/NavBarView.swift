@@ -1,5 +1,5 @@
 //
-//  NabBarView.swift
+//  NavBarView.swift
 //  RegisterApp
 //
 //  Created by Natanael Alves Pereira on 09/05/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NabBarView: UIView {
+class NavBarView: UIView {
     
     lazy var navBar: UIView = {
         let navbar = UIView()
@@ -40,8 +40,8 @@ class NabBarView: UIView {
             navBar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             navBar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         
-            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
+            titleLabel.bottomAnchor.constraint(equalTo: self.navBar.bottomAnchor, constant: -10),
+            titleLabel.leadingAnchor.constraint(equalTo: self.navBar.leadingAnchor,constant: 10),
             
         ])
     }

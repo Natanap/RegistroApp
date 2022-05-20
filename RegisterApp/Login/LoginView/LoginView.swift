@@ -1,5 +1,5 @@
 //
-//  LoginScreen.swift
+//  LoginView.swift
 //  RegisterApp
 //
 //  Created by Natanael Alves Pereira on 29/04/22.
@@ -7,11 +7,12 @@
 
 import UIKit
 
-class LoginScreen: UIView {
-
+class LoginView: UIView {
+    // MARK: - Closures
     var onTappedLoginButton: ((_ userViewModel: UserViewModel)-> Void)?
     var onTappedLoginregisterButton: (()-> Void)?
     
+    //MARK: -Elementos da view
     lazy var imageLogin: ImageDefault = {
         let image = ImageDefault(image:"person.circle",tintColor: .black, isHidden: false)
         image.backgroundColor = .orangeViewBackgroundColor
@@ -76,6 +77,8 @@ class LoginScreen: UIView {
         self.configButtonEnable(false)
     }
     
+    // MARK: - Adicionado views
+    
     private func addSubview(){
         self.addSubview(imageLogin)
         self.addSubview(imageUser)
@@ -87,15 +90,18 @@ class LoginScreen: UIView {
         self.addSubview(registerButton)
         
     }
+    //MARK: - Configura delegate
+    
     public func configTextFieldDelegate(delegate:UITextFieldDelegate){
         self.emailTextField.delegate = delegate
         self.passwordTextField.delegate = delegate
     }
-    
+    // MARK: - Armazena user senha e email
     @objc private func tappedLoginButton(){
         let userVidewModel = UserViewModel(model: UserModel(id: 0, user: String.empty , email: emailTextField.text ?? String.empty, password: passwordTextField.text ?? String.empty))
         onTappedLoginButton?(userVidewModel)
     }
+    // MARK: - Chama a tela de registro ->Closures
     
     @objc private func tappedLoginregisterButton(){
         

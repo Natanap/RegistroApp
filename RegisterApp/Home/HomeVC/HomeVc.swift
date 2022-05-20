@@ -9,12 +9,21 @@ import UIKit
 
 class HomeVc: UIViewController {
 
-    lazy var homeView = HomeView()
+    
+    lazy var homeView: HomeView = {
+        let view = HomeView()
+        
+        return view
+    }()
+    
+    // MARK: Lifecyclie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = self.homeView
-        homeView.backgroundColor = .purple
+    }
+    
+    override func loadView() {
+        self.view = homeView
     }
     
 

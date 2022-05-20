@@ -1,5 +1,5 @@
 //
-//  RegisterESUiView.swift
+//  RegisterView.swift
 //  RegisterApp
 //
 //  Created by Natanael Alves Pereira on 18/04/22.
@@ -8,10 +8,12 @@
 import UIKit
 
 class RegisterView: UIView {
+    // MARK: - Closures
     
     var onNextTap: ((_ userViewModel: UserViewModel) -> Void)?
     var onPasswordWrong: (()->Void)?
     
+    //MARK: -Elementos da view
     lazy var registerLabel = LabelDefault(text: "Tela de Registro")
     lazy var subLabel = LabelDefault(sub: "Dados de Login")
     lazy var usernameTextField = TextFieldDefault(placeholder: "Username")
@@ -63,14 +65,16 @@ class RegisterView: UIView {
     }
     
     @objc private func nextButtonTap(){
-//        if !RegExp.checkPasswordComplexity(password: self.passwordTextField.text!, length: 6, patternsToEscape:[], caseSensitivty: true, numericDigits: true, specialCharacter: true) {
-//            onPasswordWrong?()
-//        }
-        let userVidewModel = UserViewModel(model: UserModel(id: 0, user:usernameTextField.text ?? String.empty, email: emailTextField.text ?? String.empty, password: passwordTextField.text ?? String.empty))
+        if !RegExp.checkPasswordComplexity(password: self.passwordTextField.text!, length: 6, patternsToEscape:[], caseSensitivty: true, numericDigits: true, specialCharacter: true) {
+            onPasswordWrong?()
+        }else{
+            let userVidewModel = UserViewModel(model: UserModel(id: 0, user:usernameTextField.text ?? String.empty, email: emailTextField.text ?? String.empty, password: passwordTextField.text ?? String.empty))
 
+            onNextTap?(userVidewModel)
+        }
         
-        onNextTap?(userVidewModel)
     }
+    //MARK: - Mostra ou oculta a senha
     
     @objc private func topIsSecure(sender: AnyObject){
         
@@ -135,34 +139,35 @@ class RegisterView: UIView {
 
 extension RegisterView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        
-//        let email:String = self.emailTextField.text ?? ""
-//        let user:String = self.usernameTextField.text ?? ""
-//        let password:String = self.passwordTextField.text ?? ""
-//        //Verifica se os campos estão vazios
-//        if !email.isEmpty && !user.isEmpty && !password.isEmpty{
-//            self.configButtonEnable(true)
-//
-//        }else{
-//            self.configButtonEnable(false)
-//        }
-        
-//        if emailTextField != nil {
-//            emailTextField.layer.borderColor = UIColor.purple.cgColor
-//        }else{
-//            emailTextField.layer.borderColor = UIColor.green.cgColor
-//        }
-        
-//        if textField == passwordTextField {
-//            let t = RegExp.checkPasswordComplexity(password: textField.text!, length: 6, patternsToEscape:[], caseSensitivty: true, numericDigits: true, specialCharacter: true)
-//
-//            if t {
-//                textField.layer.borderColor = UIColor.systemGray.cgColor
-//            } else {
-//
-//                textField.layer.borderColor = UIColor.red.cgColor
-//            }
-//        }
+
+        let email:String = self.emailTextField.text ?? ""
+        let user:String = self.usernameTextField.text ?? ""
+        let password:String = self.passwordTextField.text ?? ""
+        //Verifica se os campos estão vazios
+        if !email.isEmpty && !user.isEmpty && !password.isEmpty{
+            self.configButtonEnable(true)
+
+        }else{
+            self.configButtonEnable(false)
+        }
+
+        if emailTextField != nil {
+            emailTextField.layer.borderColor = UIColor.purple.cgColor
+        }else{
+            emailTextField.layer.borderColor = UIColor.green.cgColor
+        }
+
+        if textField == passwordTextField {
+            let t = RegExp.checkPasswordComplexity(password: textField.text!, length: 6, patternsToEscape:[], caseSensitivty: true, numericDigits: true, specialCharacter: true)
+                
+            if t {
+                textField.layer.borderColor = UIColor.systemGreen.cgColor
+            } else {
+
+                textField.layer.borderColor = UIColor.red.cgColor
+                
+            }
+        }
         
         
     }
