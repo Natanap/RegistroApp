@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DadosPessoaisVC: UIViewController {
+class RegisterPersonalVc: UIViewController {
     
     var onNextTaped: (()-> Void)?
     

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ImageCheckDefault: UIImageView {
+class ImageDefault: UIImageView {
     
     init(image: String) {
         super.init(frame: .zero)

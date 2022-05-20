@@ -7,9 +7,9 @@
 
 import UIKit
 
-class RegisterScreen: UIView {
+class RegisterView: UIView {
     
-    var onNextTap: (() -> Void)?
+    var onNextTap: ((_ userViewModel: UserViewModel) -> Void)?
     var onPasswordWrong: (()->Void)?
     
     lazy var registerLabel = LabelDefault(text: "Tela de Registro")
@@ -17,6 +17,17 @@ class RegisterScreen: UIView {
     lazy var usernameTextField = TextFieldDefault(placeholder: "Username")
     lazy var emailTextField = TextFieldDefault(placeholder:"Digite seu e-mail")
     lazy var passwordTextField = TextFieldDefault(placeholder: "Digite sua senha", isSecureTextEntry: true)
+    lazy var eyeImageButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let imageBack = UIImage(systemName: "eye.slash")
+        button.setImage(imageBack, for: .normal)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(topIsSecure), for: .touchUpInside)
+        return button
+    }()
     lazy var nextButton: UIButtonDefault = {
         let bt = UIButtonDefault(setTitle: "Próximo")
         bt.addTarget(self, action: #selector(nextButtonTap), for: .touchUpInside)
@@ -52,11 +63,25 @@ class RegisterScreen: UIView {
     }
     
     @objc private func nextButtonTap(){
-        if !RegExp.checkPasswordComplexity(password: self.passwordTextField.text!, length: 6, patternsToEscape:[], caseSensitivty: true, numericDigits: true, specialCharacter: true) {
-            onPasswordWrong?()
-        }
+//        if !RegExp.checkPasswordComplexity(password: self.passwordTextField.text!, length: 6, patternsToEscape:[], caseSensitivty: true, numericDigits: true, specialCharacter: true) {
+//            onPasswordWrong?()
+//        }
+        let userVidewModel = UserViewModel(model: UserModel(id: 0, user:usernameTextField.text ?? String.empty, email: emailTextField.text ?? String.empty, password: passwordTextField.text ?? String.empty))
+
         
-        onNextTap?()
+        onNextTap?(userVidewModel)
+    }
+    
+    @objc private func topIsSecure(sender: AnyObject){
+        
+        passwordTextField.isSelected = !passwordTextField.isSelected
+        passwordTextField.isSecureTextEntry = !passwordTextField.isSelected
+
+        if !passwordTextField.isSecureTextEntry {
+            eyeImageButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        }else{
+            eyeImageButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        }
     }
     
     func addSubview(){
@@ -65,6 +90,7 @@ class RegisterScreen: UIView {
         self.addSubview(usernameTextField)
         self.addSubview(emailTextField)
         self.addSubview(passwordTextField)
+        self.addSubview(eyeImageButton)
         self.addSubview(nextButton)
         
     }
@@ -90,6 +116,10 @@ class RegisterScreen: UIView {
             passwordTextField.leadingAnchor.constraint(equalTo: self.usernameTextField.leadingAnchor),
             passwordTextField.trailingAnchor.constraint(equalTo: self.usernameTextField.trailingAnchor),
             
+            eyeImageButton.topAnchor.constraint(equalTo: self.passwordTextField.topAnchor, constant: 10),
+            eyeImageButton.trailingAnchor.constraint(equalTo: self.passwordTextField.trailingAnchor,constant: -10),
+            eyeImageButton.heightAnchor.constraint(equalToConstant: 25),
+            eyeImageButton.widthAnchor.constraint(equalToConstant: 25),
             
             nextButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -40),
             nextButton.leadingAnchor.constraint(equalTo: self.usernameTextField.leadingAnchor),
@@ -103,7 +133,7 @@ class RegisterScreen: UIView {
         }
 }
 
-extension RegisterScreen: UITextFieldDelegate {
+extension RegisterView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
 //        let email:String = self.emailTextField.text ?? ""
